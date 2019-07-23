@@ -8,7 +8,7 @@ router.use('/articles', require('./articles'));
 router.use('/comments', require('./comment'));
 
 router.get('/', function(req, res) {
-    res.status(200).send('<a href=\'/api/articles/\'>articles</a><br><a href=\'/api/notes/\'>notes</a>');
+    res.status(200).send('<a href=\'/api/articles/\'>articles</a><br><a href=\'/api/comment/\'>comments</a>');
 });
 
 module.exports = router;
