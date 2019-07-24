@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
-cheerio = require('cheerio');
-Article = require('../../models/article');
+var cheerio = require('cheerio');
+var db = require("../../models")
+var axios = require("axios")
 
+// /api/aticles/
 router.get('/', function(req, res) {
-    Article.find({})
-    Article.exec(function(error, docs) {
+    db.Article.find({})
+    db.Article.exec(function(error, docs) {
             if (error) {
                 console.log(error);
                 res.status(300);
@@ -15,12 +17,13 @@ router.get('/', function(req, res) {
         });
 });
 
+// /api/aticles/saved
 router.get('/saved', function(req, res) {
-    Article.find({})
-    Article.where('saved').equals(true)
-    Article.where('deleted').equals(false)
-    Article.populate('notes')
-    Article.exec(function(error, docs) {
+    db.Article.find({})
+    db.Article.where('saved').equals(true)
+    db.Article.where('deleted').equals(false)
+    db.Article.populate('notes')
+    db.Article.exec(function(error, docs) {
             if (error) {
                 console.log(error);
                 res.status(300);
@@ -30,8 +33,9 @@ router.get('/saved', function(req, res) {
         });
 });
 
+// /api/aticles/save/:id
 router.post('/save/:id', function(req, res) {
-    Article.update(req.params.id, {
+    db.Article.update(req.params.id, {
         $set: { saved: true}
         },
         { new: true },
@@ -45,10 +49,11 @@ router.post('/save/:id', function(req, res) {
         });
 });
 
+// /api/aticles/deleted
 router.get('/deleted', function(req, res) {
-        Article.find({})
-        Article.where('deleted').equals(true)
-        Article.exec(function(error, docs) {
+        db.Article.find({})
+        db.Article.where('deleted').equals(true)
+        db.Article.exec(function(error, docs) {
             if (error) {
                 console.log(error);
                 res.status(300);
@@ -58,8 +63,9 @@ router.get('/deleted', function(req, res) {
         });
 });
 
+// /api/aticles/remove/:id
 router.delete('/remove/:id', function(req, res) {
-    Article.findByIdAndUpdate(req.params.id,
+    db.Article.findByIdAndUpdate(req.params.id,
         { $set: { deleted: true } },
         { new: true },
         function(error, doc) {
@@ -72,8 +78,9 @@ router.delete('/remove/:id', function(req, res) {
         });
 });
 
+// /api/aticles/:id
 router.delete('/:id', function(req, res) {
-    Article.findByIdAndUpdate(req.params.id,
+    db.Article.findByIdAndUpdate(req.params.id,
         { $set: { deleted: true} },
         { new: true },
         function(error, doc) {
@@ -87,19 +94,21 @@ router.delete('/:id', function(req, res) {
     );
 });
 
+// /api/aticles/scrape
 router.get('/scrape', function(req, res, next) {
-    request('https://www.nytimes.com/', function(error, response, html) {
+    var results = {};
+    axios.get('https://www.nytimes.com/', function(error, response, html) {
         var $ = cheerio.load(response.data);
-        var results = {};
-        result.title = $(this)
+        
+      results.title = $(this)
         .children("a")
         .text();
-      result.link = $(this)
+      results.link = $(this)
         .children("a")
         .attr("href");
     });
 
-    db.Article.create(result)
+    db.Article.create(results)
         .then(function(dbArticle) {
           console.log(dbArticle);
         })

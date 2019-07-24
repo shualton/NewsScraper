@@ -1,0 +1,31 @@
+{
+  "name": "NewsScraper",
+  "version": "1.0.0",
+  "description": "Tried to use a mongodb to scrape data from the new york times website and display it on an html page. Ultimately had errors with the get requests and the api routing that caused the application to fail. Had trouble trying to get the request to go through.",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongojs": "^2.6.0",
+    "mongoose": "^5.6.5",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shualton/NewsScraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shualton/NewsScraper/issues"
+  },
+  "homepage": "https://github.com/shualton/NewsScraper#readme"
+}

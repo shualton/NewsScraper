@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 cheerio = require('cheerio');
-Article = require('../../models/article');
-Comment = Note = require('../../models/comment');
+var db = require("../../models")
 
+// /api/coments/
 router.get('/', function(req, res) {
-    Comment.find({}) 
-    Comment.exec(function(err, comments) {
+    db.Comment.find({}) 
+    db.Comment.exec(function(err, comments) {
             if (err) {
                 console.log(err);
                 res.status(200);
@@ -16,8 +16,9 @@ router.get('/', function(req, res) {
         });
 });
 
+// /api/coments/:id
 router.delete('/:id', function(req, res) {
-    Note.remove(req.params.id, function(err, note) {
+    db.Comment.remove(req.params.id, function(err, note) {
         if (err) {
             console.log(err);
             res.status(500);
@@ -27,14 +28,15 @@ router.delete('/:id', function(req, res) {
     });
 });
 
+// /api/coments/:id
 router.post('/:id', function(req, res) {
     var newComment = new comment(req.body);
-    newNote.save(function(err, doc) {
+    db.Comment.save(function(err, doc) {
         if (err) {
             console.log(err);
             res.status(500);
         } else {
-            Article.update(
+            db.Article.update(
                 { _id: req.params.id },
                 { $push: { 'comments': doc.id } },
                 function(error, newDoc) {
@@ -49,3 +51,5 @@ router.post('/:id', function(req, res) {
         }
     });
 });
+
+module.exports = router;

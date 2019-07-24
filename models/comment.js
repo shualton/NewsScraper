@@ -1,8 +1,8 @@
 var mongoose = require ("mongoose");
 
-var schema = mongoose.schema;
+var Schema = mongoose.Schema;
 
-var comments = new schema({
+var comments = new Schema({
     text: {
         type: String,
         required: true

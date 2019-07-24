@@ -1,8 +1,8 @@
-var mongoos  = require("mongoose");
+var mongoose  = require("mongoose");
 
-var schema = mongoos.schema;
+var Schema = mongoose.Schema;
 
-var articles = new schema ({
+var articles = new Schema ({
     title: {
         type: String,
         required: true
@@ -26,8 +26,8 @@ var articles = new schema ({
         default: Date.now
     },
     comments: [{
-        type: schema.Types,ObjetId,
-        required: false
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
     }]
 });
 
